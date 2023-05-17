@@ -59,7 +59,7 @@ function UploadModal({ open, close}) {
       console.log(resp.data);
       close(); // 모달 닫기
       window.location.reload();
-      alert('업로드 완료');
+      alert('업로드 완료. 10 포인트가 적립되었습니다.');
   })
   .catch((error) => { // fail
     alert('업로드 실패');
