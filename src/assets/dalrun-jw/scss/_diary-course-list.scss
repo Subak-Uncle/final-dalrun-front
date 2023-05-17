@@ -72,6 +72,22 @@
   padding-top: 1rem;
   height: 10%;
   background-color: #F6FDF8;
+  
+  table {
+    width: 100%;
+    height: 4rem;
+    border:none;
+  }
+  
+  table td {
+    padding: 2px;
+    text-align: center;
+  }
+
+  .btn_today {
+    
+  }
+  
 
   .sido-button-container {
     display: flex;
@@ -139,6 +155,7 @@
       padding: 5px 10px;
       border: none;
       border-radius: 5px;
+      font-size: xx-small;
       background-color: #51e3d4;
       color: #343a40;
       cursor: pointer;
@@ -173,7 +190,7 @@
   display: flex;
   justify-content: center;
   height: 5%;
-  margin-bottom: 0.4rem;
+  padding-top: 0.7rem;
 }
 
 // 코스 리스트
@@ -217,3 +234,11 @@
   }
 
 }
+
+.rounded-circle {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 50%; 
+}
+
