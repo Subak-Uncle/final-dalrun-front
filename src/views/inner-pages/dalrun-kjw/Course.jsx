@@ -26,7 +26,7 @@ const Course = () => {
         {/* 기록 리스트 */}
         <div id="list" className='_diary-list'>
           < CourseList 
-            course={courseItems}
+            courseItems={courseItems}
             onCourseSelect={handleCourseSelection}
             onCourseItemsChange={setCourseItems}
           />
@@ -34,7 +34,7 @@ const Course = () => {
 
         {/* 지도 부분 */}
         <div id="map" className='_diary-map'>
-          <CourseMap course={courseItems} selectedCourse={selectedCourse}/>
+          <CourseMap courseItems={courseItems} selectedCourse={selectedCourse}/>
         </div>
       </div>
      

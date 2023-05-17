@@ -62,10 +62,10 @@ const CourseUpload = ({ open, close }) => {
       .then((resp) => {
         console.log(resp.data);
         window.location.reload();
-        alert('업로드 완료');
+        alert('업로드 완료. 10포인트가 적립되었습니다.');
       })
       .catch((error) => {
-        alert('업로드 실패');
+        alert('업로드 실패. 예기치 못한 오류가 발생하였습니다.');
         console.error(error);
       });
     };

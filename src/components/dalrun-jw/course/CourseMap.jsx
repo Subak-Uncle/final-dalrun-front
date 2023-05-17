@@ -6,7 +6,7 @@ import geoJson from "./AreaData.json";
 import sidoList from './AreaCode';
 import HoverPolygon from './HoverPolygon';
 
-function CourseMap({ course, selectedCourse}) {
+function CourseMap({ courseItems, selectedCourse}) {
 
   const navermaps = useNavermaps();
 
@@ -18,7 +18,7 @@ function CourseMap({ course, selectedCourse}) {
   const [polygonData, setPolygonData] = useState({});
 
   useEffect(() => {
-    if(course && course.length > 0){
+    if(courseItems && courseItems.length > 0){
 
       // 코스 번호에 따른 gpxData 호출
       axios.get('http://localhost:3000/courseGpxList', null, [])
@@ -52,7 +52,7 @@ function CourseMap({ course, selectedCourse}) {
           console.log(error);
         });
     }
-  }, [course]);
+  }, [courseItems]);
 
   let centralCoord = {};
   sidoList.forEach(sido => {
@@ -186,28 +186,32 @@ function MySetCenter({ selectedCourse, path }) {
   }, [selectedCourse, path]);
 
   return (
-    <React.Fragment>
+    <>
       {Object.entries(path).map(([courseSeq, path]) => {
         if (path && path.length > 0) {
-          return <Marker 
-                    key={courseSeq} 
-                    position={path[0]}
-                    icon={{
-                      url: '/map_marker.png',
-                      size: { width: 40, height: 40 },
-                      anchor: { x: 20, y: 40 },
-                    }}
-                  />;
+          return (
+            <React.Fragment key={courseSeq}>
+              <Marker 
+                key={`marker-${courseSeq}`} 
+                position={path[0]}
+                icon={{
+                  url: '/map_marker.png',
+                  size: { width: 40, height: 40 },
+                  anchor: { x: 20, y: 40 },
+                }}
+              />
+              <Polyline
+                key={`polyline-${courseSeq}`}
+                path={path}
+                strokeColor={selectedCourse && selectedCourse.courseSeq === courseSeq ? '#74EABC' : '#000000'}
+                strokeWeight={8}
+              />
+            </React.Fragment>
+          );
         }
         return null;
       })}
-      {Object.entries(path).map(([courseSeq, path]) => (
-        <Polyline
-          path={path}
-          strokeColor={selectedCourse && selectedCourse.courseSeq === courseSeq ? '#74EABC' : '#000000'}
-          strokeWeight={8}
-        />
-      ))}
-    </React.Fragment>
+    </>
   );
+  
 }
