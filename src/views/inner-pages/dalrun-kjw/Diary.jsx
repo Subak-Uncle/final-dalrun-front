@@ -38,7 +38,11 @@ function Diary(){
 
         {/* 지도 부분 */}
         <div id="map" className='_diary-map'>
-          <DiaryMap diaries={diaryItems} selectedDiary={selectedDiary} />
+          <DiaryMap 
+            diaries={diaryItems} 
+            selectedDiary={selectedDiary}
+            setSelectedDiary={setSelectedDiary}   
+          />
         </div>
 
       </div>

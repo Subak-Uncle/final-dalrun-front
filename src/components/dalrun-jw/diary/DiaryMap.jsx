@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 
-function DiaryMap({ diaries, selectedDiary }){
+function DiaryMap({ diaries, selectedDiary, setSelectedDiary }){
   // console.log('네이버맵 다이어리 데이터', diaries);
   console.log('네이버맵-리스트에서 선택된 다이어리: ', selectedDiary);
   const navermaps = useNavermaps();
@@ -89,7 +89,13 @@ function DiaryMap({ diaries, selectedDiary }){
         return (
           <NaverMap {...mapOptions} center={center} zoom={zoom}>
             <LocationBtn/>
-            <MySetCenter selectedDiary={selectedDiary} path={path} />
+            <MySetCenter
+              key={selectedDiary?.diarySeq || 'default'}
+              selectedDiary={selectedDiary}
+              path={path}
+              diaries={diaries}
+              setSelectedDiary={setSelectedDiary}
+            />
           </NaverMap>
         );
       }, [selectedDiary, path])}
@@ -134,7 +140,7 @@ function LocationBtn() {
   );
 }
 
-function MySetCenter({ selectedDiary, path }) {
+function MySetCenter({ selectedDiary, path, diaries, setSelectedDiary }) {
   const nMap = useMap();
   const navermaps = useNavermaps();
 
@@ -157,19 +163,34 @@ function MySetCenter({ selectedDiary, path }) {
     }
   }, [selectedDiary, path]);
 
+  const handleMarkerClick = (diarySeq) => {
+    const selected = diaries.find(diary => diary.diarySeq === diarySeq);
+    setSelectedDiary(selected);
+  };
+
   return (
     <React.Fragment>
       {!selectedDiary && Object.entries(path).map(([diarySeq, path], index) => {
         if (path && path.length > 0) {
-          return <Marker 
-                    key={diarySeq} 
-                    position={path[0]}
-                    icon={{
-                      url: '/map_marker.png',
-                      size: { width: 40, height: 40 },
-                      anchor: { x: 20, y: 40 },
-                    }}
-                  />;
+          return (
+            <React.Fragment key={index}>
+              <Marker 
+                key={diarySeq} 
+                position={path[0]}
+                icon={{
+                  url: '/map_marker.png',
+                  size: { width: 40, height: 40 },
+                  anchor: { x: 20, y: 40 },
+                }}
+                onClick={() => handleMarkerClick(diarySeq)}
+              />
+              <Polyline
+                  path={path}
+                  strokeColor={'#74EABC80'}
+                  strokeWeight={4}
+              />
+            </React.Fragment>
+          );
         }
         return null;
       })}
